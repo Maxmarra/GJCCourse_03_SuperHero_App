@@ -63,7 +63,9 @@ fun HeroListItem(
                 .padding(16.dp)
                 .sizeIn(minHeight = 72.dp)
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
                     text = stringResource(hero.nameRes),
                     style = MaterialTheme.typography.h3
