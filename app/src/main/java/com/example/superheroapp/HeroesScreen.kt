@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalAnimationApi::class)
-
 package com.example.superheroapp
 
 import android.content.res.Configuration
@@ -31,47 +29,23 @@ import com.example.superheroapp.model.Hero
 import com.example.superheroapp.model.HeroesRepository
 import com.example.superheroapp.ui.theme.SuperheroAppTheme
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HeroesList(
     heroes: List<Hero>,
     modifier: Modifier = Modifier,
 ) {
-    val visibleState = remember {
-        MutableTransitionState(false).apply {
-            // Start the animation immediately.
-            targetState = true
+
+    LazyColumn {
+        itemsIndexed(heroes) { index, hero ->
+            HeroListItem(
+                hero = hero,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+
+            )
         }
     }
 
-    // Fade in entry animation for the entire list
-    AnimatedVisibility(
-        visibleState = visibleState,
-        enter = fadeIn(
-            animationSpec = spring(dampingRatio = DampingRatioLowBouncy)
-        ),
-        exit = fadeOut()
-    ) {
-        LazyColumn {
-            itemsIndexed(heroes) { index, hero ->
-                HeroListItem(
-                    hero = hero,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        // Animate each list item to slide in vertically
-                        .animateEnterExit(
-                            enter = slideInVertically(
-                                animationSpec = spring(
-                                    stiffness = StiffnessVeryLow,
-                                    dampingRatio = DampingRatioLowBouncy
-                                ),
-                                initialOffsetY = { it * (index + 1) } // staggered entrance
-                            )
-                        )
-                )
-            }
-        }
-    }
 }
 
 @Composable
